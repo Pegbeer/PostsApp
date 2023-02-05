@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">PostsApp</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    <string name="app_name" translatable="false">PostsApp</string>
+    <string name="lorem" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </string>
+    <string name="error" translatable="false">Error</string>
+    <string name="post" translatable="false">Post</string>
+    <string name="album" translatable="false">Album</string>
+    <string name="generic_error_message">An error has occurred while trying to make the request to the server.</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="search_post">Search Post</string>
 </resources>
