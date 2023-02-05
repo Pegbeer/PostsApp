@@ -38,6 +38,7 @@ dependencies {
     val app_compat_version = "1.5.1"
     val material_version = "1.7.0"
     val koin_version = "3.3.2"
+    val retrofit_version = "2.9.0"
 
     implementation("androidx.core:core-ktx:$core_ktx_version")
     implementation("androidx.appcompat:appcompat:$app_compat_version")
@@ -47,7 +48,11 @@ dependencies {
     //Dependency Injection
     implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.insert-koin:koin-android:$koin_version")
-    
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+
     
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
