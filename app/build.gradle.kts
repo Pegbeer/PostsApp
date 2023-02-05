@@ -6,7 +6,6 @@ plugins {
 
 android {
     compileSdk = 32
-    namespace = "com.pegbeer.PostApp"
 
     defaultConfig {
         applicationId = "com.pegbeer.postsapp"
