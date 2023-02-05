@@ -1,6 +1,7 @@
 package com.pegbeer.postsapp
 
 import android.app.Application
+import com.pegbeer.postsapp.di.AppModule
 import com.pegbeer.postsapp.di.NetworkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -14,7 +15,7 @@ class PostsApp : Application() {
         startKoin{
             androidLogger()
             androidContext(this@PostsApp)
-            modules(listOf(NetworkModule.modules))
+            modules(listOf(NetworkModule.modules, AppModule.modules))
         }
     }
 }
