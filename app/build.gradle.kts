@@ -30,15 +30,21 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures{
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
 
     val core_ktx_version = "1.8.0"
     val app_compat_version = "1.5.1"
-    val material_version = "1.7.0"
+    val material_version = "1.8.0"
     val koin_version = "3.3.2"
     val retrofit_version = "2.9.0"
+    val viewmodel_version = "2.4.1"
+    val glide_version = "4.14.2"
 
     implementation("androidx.core:core-ktx:$core_ktx_version")
     implementation("androidx.appcompat:appcompat:$app_compat_version")
@@ -49,9 +55,16 @@ dependencies {
     implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.insert-koin:koin-android:$koin_version")
 
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version")
+
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:$glide_version")
+    kapt("com.github.bumptech.glide:compiler:$glide_version")
 
     
     testImplementation("junit:junit:4.13.2")
