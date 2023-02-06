@@ -5,8 +5,10 @@
     <string name="error" translatable="false">Error</string>
     <string name="post" translatable="false">Post</string>
     <string name="album" translatable="false">Album</string>
+    <string name="comments">Comments</string>
     <string name="generic_error_message">An error has occurred while trying to make the request to the server.</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="search_post">Search Post</string>
+    <string name="search_comments">Search Comments</string>
 </resources>
