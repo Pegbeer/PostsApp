@@ -1,8 +1,15 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
 }
+
+val appPropertiesFile = rootProject.file("app.properties")
+val appProperties = Properties()
+appProperties.load(FileInputStream(appPropertiesFile))
 
 android {
     compileSdk = 32
@@ -17,9 +24,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs{
+        create("release"){
+            keyAlias = appProperties["keyAlias"].toString()
+            keyPassword = appProperties["keyPassword"].toString()
+            storeFile = file(appProperties["storeFile"].toString())
+            storePassword = appProperties["storePassword"].toString()
+        }
+    }
+
     buildTypes {
         getByName("release"){
             isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
