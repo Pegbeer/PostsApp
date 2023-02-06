@@ -44,6 +44,7 @@ dependencies {
     val koin_version = "3.3.2"
     val retrofit_version = "2.9.0"
     val viewmodel_version = "2.4.1"
+    val liveData_version = "2.4.1"
     val glide_version = "4.14.2"
 
     implementation("androidx.core:core-ktx:$core_ktx_version")
@@ -65,6 +66,9 @@ dependencies {
     //Glide
     implementation("com.github.bumptech.glide:glide:$glide_version")
     kapt("com.github.bumptech.glide:compiler:$glide_version")
+
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$liveData_version")
 
     
     testImplementation("junit:junit:4.13.2")
