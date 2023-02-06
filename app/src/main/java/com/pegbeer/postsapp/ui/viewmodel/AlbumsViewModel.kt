@@ -7,7 +7,6 @@ import com.pegbeer.postsapp.data.model.Photo
 import com.pegbeer.postsapp.data.repository.PostRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class AlbumsViewModel(
@@ -21,7 +20,7 @@ class AlbumsViewModel(
 
     fun load(id:Int){
         viewModelScope.launch {
-            repository.getPhotosByPost(id).collect{
+            repository.getPhotosById(id).collect{
                 _photos.emit(it)
             }
         }
