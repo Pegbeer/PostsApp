@@ -10,24 +10,18 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.pegbeer.postsapp.databinding.CommentItemBinding
 
 class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.ViewHolder>(), Filterable {
 
     var sourceList:List<Comment> = emptyList()
+    private var _currentList:List<Comment> = emptyList()
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Comment>() {
-
-        override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-            return oldItem == newItem
-        }
-
+    fun submitList(data:List<Comment>){
+        _currentList = data
+        notifyDataSetChanged()
     }
-    private val differ = AsyncListDiffer(this, diffCallback)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,15 +32,11 @@ class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.ViewHolder>(), Filt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
+        holder.bind(_currentList[position])
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
-
-    fun submitList(list: List<Comment>) {
-        differ.submitList(list)
+        return _currentList.size
     }
 
     class ViewHolder(
@@ -56,13 +46,13 @@ class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.ViewHolder>(), Filt
         fun bind(item: Comment) = with(binding) {
             if(adapterPosition % 2 == 0){
                 commentLinearLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    startToStart = commentContainer.id
-                    endToStart = commentGuidelineEnd.id
+                    startToEnd = commentGuidelineStart.id
+                    endToEnd = commentContainer.id
                 }
             }else{
                 commentLinearLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    startToEnd = commentGuidelineStart.id
-                    endToEnd = commentContainer.id
+                    startToStart = commentContainer.id
+                    endToStart = commentGuidelineEnd.id
                 }
             }
             commentBodyTextView.text = item.body
@@ -74,7 +64,11 @@ class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.ViewHolder>(), Filt
         return object : Filter(){
             override fun performFiltering(constraint: CharSequence): FilterResults {
                 return if(constraint.isNotEmpty()){
-                    val filtered = sourceList.asSequence().filter { it.body.contains(constraint) }.toList()
+                    val filtered = sourceList
+                        .asSequence()
+                        .filter { it.body.contains(constraint) }
+                        .sortedBy { it.id }
+                        .toList()
                     FilterResults().apply { values = filtered }
                 }else{
                     FilterResults().apply { values = sourceList.sortedBy { it.id }.toList() }
@@ -84,7 +78,8 @@ class CommentsAdapter : RecyclerView.Adapter<CommentsAdapter.ViewHolder>(), Filt
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 if(results != null){
                     if(results.values != null){
-                        differ.submitList(results.values as List<Comment>)
+                        val list = (results.values as List<Comment>).sortedBy { it.id }.toList()
+                        submitList(list)
                     }
                 }
             }
