@@ -21,15 +21,23 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 app:title="@string/post"
                 app:titleCentered="true"
                 app:titleTextColor="@color/white"
                 app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
-            <com.google.android.material.search.SearchBar
+            <EditText
+                android:id="@+id/search_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/search_edit_text_background"
+                android:padding="6dp"
+                android:textSize="14sp"
+                android:drawableStart="@drawable/search_48px"
+                android:drawablePadding="12dp"
+                android:layout_marginBottom="4dp"
                 android:hint="@string/search_post"/>
 
         </LinearLayout>

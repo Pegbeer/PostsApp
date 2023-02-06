@@ -3,9 +3,9 @@ package com.pegbeer.postsapp.ui.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.pegbeer.postsapp.R
+import com.pegbeer.postsapp.core.SortMode
 import com.pegbeer.postsapp.core.Status
 import com.pegbeer.postsapp.core.extensions.showErrorDialog
 import com.pegbeer.postsapp.databinding.ActivityMainBinding
@@ -40,11 +40,19 @@ class MainActivity() : ScopeActivity(), IOnPostButtonClickListener {
                         showErrorDialog()
                     }
                     Status.SUCCESS ->{
-                        adapter.submitList(it.data!!)
+                        adapter.sourceList = it.data!!
+                        adapter.submitList(it.data)
+                        observePosts()
                         hideLoading()
                     }
                 }
             }
+        }
+    }
+
+    private fun observePosts() {
+        viewModel.searchQuery.observe(this){
+            adapter.filter.filter(it)
         }
     }
 
@@ -60,6 +68,9 @@ class MainActivity() : ScopeActivity(), IOnPostButtonClickListener {
 
     private fun initViews() {
         binding.recyclerViewPosts.adapter = adapter
+        binding.searchEditText.doOnTextChanged { text, _, _, _ ->
+            viewModel.searchQuery.postValue(text.toString())
+        }
     }
 
     override fun <T : ScopeActivity> onClick(destination: Class<T>, id:Int) {

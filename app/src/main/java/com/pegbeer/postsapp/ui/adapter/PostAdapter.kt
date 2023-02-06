@@ -4,6 +4,8 @@ package com.pegbeer.postsapp.ui.adapter
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.pegbeer.postsapp.data.model.Post
@@ -14,7 +16,9 @@ import com.pegbeer.postsapp.ui.view.CommentsActivity
 
 class PostAdapter(
     private val listener:IOnPostButtonClickListener
-) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PostAdapter.ViewHolder>(), Filterable {
+
+    var sourceList:List<Post> = emptyList()
 
     private val diffCallback = object : DiffUtil.ItemCallback<Post>() {
 
@@ -59,6 +63,27 @@ class PostAdapter(
             }
             commentsIconButton.setOnClickListener {
                 listener.onClick(CommentsActivity::class.java, item.id)
+            }
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(constraint: CharSequence): FilterResults {
+                return if(constraint.isNotEmpty()){
+                    val filtered = sourceList.asSequence().filter { it.body.contains(constraint) }.toList()
+                    FilterResults().apply { values = filtered }
+                }else{
+                    FilterResults().apply { values = sourceList.sortedBy { it.id }.toList() }
+                }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                if(results != null){
+                    if(results.values != null){
+                        differ.submitList(results.values as List<Post>)
+                    }
+                }
             }
         }
     }
